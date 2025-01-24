@@ -6,43 +6,45 @@
     <title>Harian</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-blue-100 min-h-screen flex items-center justify-center">
-    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 w-full max-w-md">
-        <h1 class="text-2xl font-bold text-center text-blue-700 mb-4">Todo List</h1>
+<body class="bg-gradient-to-r from-blue-500 to-blue-700 min-h-screen flex items-center justify-center">
+    <div class="bg-white shadow-lg rounded-lg px-8 pt-6 pb-8 w-full max-w-lg">
+        <h1 class="text-3xl font-bold text-center text-blue-800 mb-6">Harian beta Todo-list</h1>
 
-        <!-- Display -->
-        <ul class="space-y-2 mb-4">
+        <ul class="divide-y divide-gray-300 mb-6">
             @foreach ($tasks as $task)
-                <li class="flex items-center justify-between p-2 bg-blue-50 rounded">
+                <li class="py-4 flex items-center justify-between">
                     <div>
-                        <h3 class="font-semibold {{ $task->is_completed ? 'line-through text-gray-500' : 'text-blue-900' }}">{{ $task->title }}</h3>
-                        <p class="text-sm text-gray-600">{{ $task->description }}</p>
+                        <h3 class="text-lg font-semibold {{ $task->is_completed ? 'line-through text-gray-400' : 'text-blue-900' }}">{{ $task->title }}</h3>
+                        <p class="text-sm text-gray-500">{{ $task->description }}</p>
                     </div>
-                    <form action="{{ route('tasks.update', $task) }}" method="POST" class="inline">
-                        @csrf
-                        @method('PUT')
-                        <input type="hidden" name="is_completed" value="{{ $task->is_completed ? 0 : 1 }}">
-                        <button type="submit" class="text-sm text-blue-500 hover:underline">Mark as {{ $task->is_completed ? 'Incomplete' : 'Complete' }}</button>
-                    </form>
-                    <form action="{{ route('tasks.destroy', $task) }}" method="POST" class="inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="text-sm text-red-500 hover:underline">Delete</button>
-                    </form>
+                    <div class="flex items-center space-x-2">
+                        <form action="{{ route('tasks.update', $task) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" name="is_completed" value="{{ $task->is_completed ? 0 : 1 }}">
+                            <button type="submit" class="text-sm px-2 py-1 rounded {{ $task->is_completed ? 'bg-yellow-500 text-white' : 'bg-green-500 text-white' }} hover:opacity-90">
+                                {{ $task->is_completed ? 'Undo' : 'Complete' }}
+                            </button>
+                        </form>
+                        <form action="{{ route('tasks.destroy', $task) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-sm px-2 py-1 rounded bg-red-500 text-white hover:opacity-90">Delete</button>
+                        </form>
+                    </div>
                 </li>
             @endforeach
         </ul>
 
-        <!-- Tambah task baru -->
         <form action="{{ route('tasks.store') }}" method="POST" class="space-y-4">
             @csrf
             <div>
                 <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
-                <input type="text" name="title" id="title" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                <input type="text" name="title" id="title" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 sm:text-sm" required>
             </div>
             <div>
                 <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                <textarea name="description" id="description" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
+                <textarea name="description" id="description" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 sm:text-sm"></textarea>
             </div>
             <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">Add Task</button>
         </form>

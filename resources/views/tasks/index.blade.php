@@ -6,9 +6,12 @@
     <title>Harian</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-r from-blue-500 to-blue-700 min-h-screen flex items-center justify-center">
-    <div class="bg-white shadow-lg rounded-lg px-8 pt-6 pb-8 w-full max-w-lg">
-        <h1 class="text-3xl font-bold text-center text-blue-800 mb-6">Harian beta Todo-list</h1>
+<body class="min-h-screen flex items-center justify-center" 
+      style="background-image: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1794&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); 
+             background-size: cover; 
+             background-position: center;">
+    <div class="bg-white bg-opacity-80 shadow-lg rounded-lg px-8 pt-6 pb-8 w-full max-w-lg backdrop-blur-md">
+        <h1 class="text-3xl font-bold text-center text-blue-800 mb-6">Harian Beta Todolist</h1>
 
         <ul class="divide-y divide-gray-300 mb-6">
             @foreach ($tasks as $task)

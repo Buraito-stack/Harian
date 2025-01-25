@@ -2,68 +2,63 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TaskRequest;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the tasks.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = Task::latest()->paginate(10); // Mengambil semua task dengan pagination
+        $tasks = Task::query()
+            ->when($request->filter, function ($query, $filter) {
+                if ($filter === 'completed') {
+                    $query->where('is_completed', true);
+                } elseif ($filter === 'incomplete') {
+                    $query->where('is_completed', false);
+                }
+            })
+            ->when($request->sort, function ($query, $sort) {
+                if ($sort === 'priority') {
+                    $query->orderByRaw("FIELD(priority, 'High', 'Medium', 'Low')");
+                } elseif ($sort === 'deadline') {
+                    $query->orderBy('deadline');
+                }
+            })
+            ->get();
+
         return view('tasks.index', compact('tasks'));
     }
 
-    /**
-     * Show the form for creating a new task.
-     */
-    public function create()
+    public function store(Request $request)
     {
-        return view('tasks.create');
-    }
-
-    /**
-     * Store a newly created task in storage.
-     */
-    public function store(TaskRequest $request)
-    {
-        $validated = $request->validated();
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'priority' => 'required|in:Low,Medium,High',
+            'deadline' => 'nullable|date',
+        ]);
 
         Task::create($validated);
-
-        return redirect()->route('tasks.index')->with('success', 'Task created successfully.');
+        return redirect()->back()->with('success', 'Task created successfully!');
     }
 
-    /**
-     * Show the form for editing the specified task.
-     */
-    public function edit(Task $task)
+    public function update(Request $request, Task $task)
     {
-        return view('tasks.edit', compact('task'));
-    }
-
-    /**
-     * Update the specified task in storage.
-     */
-    public function update(TaskRequest $request, Task $task)
-    {
-        $validated = $request->validated();
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'is_completed' => 'required|boolean',
+            'priority' => 'required|in:Low,Medium,High',
+            'deadline' => 'nullable|date',
+        ]);
 
         $task->update($validated);
-
-        return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');
+        return redirect()->back()->with('success', 'Task updated successfully!');
     }
 
-    /**
-     * Remove the specified task from storage.
-     */
     public function destroy(Task $task)
     {
         $task->delete();
-
-        return redirect()->route('tasks.index')->with('success', 'Task deleted successfully.');
+        return redirect()->back()->with('success', 'Task deleted successfully!');
     }
 }

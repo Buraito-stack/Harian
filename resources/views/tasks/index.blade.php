@@ -11,7 +11,7 @@
              background-size: cover; 
              background-position: center;">
     <div class="bg-white shadow-lg rounded-lg px-8 pt-6 pb-8 w-full max-w-lg">
-        <h1 class="text-3xl font-bold text-center text-blue-800 mb-6">Todo List</h1>
+        <h1 class="text-3xl font-bold text-center text-blue-800 mb-6">Harian todolist test</h1>
 
         <!-- Filters -->
         <div class="mb-4 flex justify-between items-center">

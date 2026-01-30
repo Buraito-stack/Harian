@@ -1,34 +1,43 @@
+
 # Harian Monorepo
 
-Monorepo untuk portfolio: frontend (Vite + React + TypeScript + Tailwind) dan backend (Express + TypeScript + Prisma + Postgres). Fokus awal: feed sosial sederhana dengan todo list terintegrasi.
+Harian is a monorepo portfolio project featuring a modern social feed with an integrated todo list. It consists of a fullstack web app: frontend (Vite + React + TypeScript + Tailwind) and backend (Express + TypeScript + Prisma + PostgreSQL).
 
-## Struktur
-- apps/api: Backend Express + Prisma.
-- apps/web: Frontend Vite React + Tailwind.
+## Structure
+- `apps/api`: Express backend with Prisma ORM.
+- `apps/web`: Vite React frontend with Tailwind CSS.
 
-## Prasyarat
+## Prerequisites
 - Node.js >= 18
-- PNPM/NPM (instruksi di bawah pakai npm)
-- Postgres (lokal atau Docker)
+- NPM or PNPM (examples below use npm)
+- PostgreSQL (local or Docker)
 
-## Setup singkat
-1) Install dependency root & workspace:
+## Quick Setup
+1. Install dependencies for root and workspaces:
+   ```sh
    npm install
    npm --workspace apps/api install
    npm --workspace apps/web install
+   ```
 
-2) Salin env:
+2. Copy environment variables:
+   ```sh
    cp .env.example .env
    cp apps/api/.env.example apps/api/.env
+   ```
 
-3) Jalankan migrasi Prisma (setelah Postgres siap):
+3. Run Prisma migrations (after PostgreSQL is ready):
+   ```sh
    cd apps/api
    npx prisma migrate dev
+   ```
 
-4) Run dev (dua server paralel):
+4. Start development (both servers in parallel):
+   ```sh
    npm run dev
+   ```
 
-## Catatan
-- API default di port 4000; web di 5173.
-- Todo route masih in-memory; ganti ke Prisma ketika DB siap.
-- Untuk PWA/mobile: web sudah responsif, bisa lanjut ke React Native/Expo dengan share logic (fetch, types) nanti.
+## Notes
+- API runs on port 4000; web runs on 5173 by default.
+- Todo routes are in-memory for now; will migrate to Prisma/DB soon.
+- The web app is responsive and ready for PWA/mobile. Future plans include React Native/Expo with shared logic (fetch/types).
